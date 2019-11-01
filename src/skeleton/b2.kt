@@ -7,6 +7,7 @@ private fun readFloat() = readLn().toFloat() // single float
 
 // Read line split by space
 private fun readStrings() = readLn().split(" ") // list of strings
+
 private fun readInts() = readStrings().map { it.toInt() } // list of ints
 private fun readLongs() = readStrings().map { it.toLong() } // list of longs
 private fun readFloats() = readStrings().map { it.toFloat() } // list of floats
@@ -19,7 +20,7 @@ fun main() {
     printOutput()
 }
 
+
 private fun printOutput() {
 
 }
-
