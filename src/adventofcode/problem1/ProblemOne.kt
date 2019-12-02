@@ -1,4 +1,4 @@
-package adventofcode
+package adventofcode.problem1
 
 import kotlin.math.floor
 

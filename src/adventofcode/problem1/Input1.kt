@@ -1,4 +1,4 @@
-package adventofcode
+package adventofcode.problem1
 
 const val input1a = "76663\n" +
         "111378\n" +
