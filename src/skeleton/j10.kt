@@ -1,5 +1,7 @@
 package skeleton
 
+import java.io.File
+
 private fun readLn() = readLine()!! // string line
 private fun readInt() = readLn().toInt() // single int
 private fun readLong() = readLn().toLong() // single long
@@ -20,5 +22,11 @@ fun main() {
 }
 
 private fun printOutput() {
+}
 
+private fun fileWriter() {
+    val fileName = "/src/data.txt"
+    val file = File(fileName)
+    // create a new file
+    file.writeText("")
 }
