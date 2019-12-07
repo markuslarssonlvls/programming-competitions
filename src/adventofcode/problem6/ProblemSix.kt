@@ -9,19 +9,10 @@ var orbits: MutableMap<String, MutableSet<String>> = mutableMapOf()
 var directOrbits: MutableMap<String, MutableSet<String>> = mutableMapOf()
 
 fun main() {
-    a()
-    b()
+    solve()
 }
 
-fun a() {
-    find()
-}
-
-fun b() {
-    find()
-}
-
-fun find() {
+fun solve() {
     orbits = mutableMapOf()
     while (true) {
         val line1 = readLn()
