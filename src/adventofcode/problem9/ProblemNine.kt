@@ -66,39 +66,39 @@ class LongComputer(val setting: Long) {
                     return output
                 }
                 9 -> {
-                    val a = getValue(instructionAtPlace1, currentIndex + 1L)
+                    val a = getValue(instructionAtPlace1, currentIndex + 1)
                     relativeBase += a.toInt()
                     currentIndex += 2
                 }
                 1 -> {
-                    val a = getValue(instructionAtPlace1, currentIndex + 1L)
-                    val b = getValue(instructionAtPlace2, currentIndex + 2L)
+                    val a = getValue(instructionAtPlace1, currentIndex + 1)
+                    val b = getValue(instructionAtPlace2, currentIndex + 2)
 
-                    storeValue(instructionAtPlace3, currentIndex + 3L, a + b)
+                    storeValue(instructionAtPlace3, currentIndex + 3, a + b)
 
                     currentIndex += 4
                 }
                 2 -> {
-                    val a = getValue(instructionAtPlace1, currentIndex + 1L)
-                    val b = getValue(instructionAtPlace2, currentIndex + 2L)
-                    storeValue(instructionAtPlace3, currentIndex + 3L, a * b)
+                    val a = getValue(instructionAtPlace1, currentIndex + 1)
+                    val b = getValue(instructionAtPlace2, currentIndex + 2)
+                    storeValue(instructionAtPlace3, currentIndex + 3, a * b)
                     currentIndex += 4
 
                 }
                 3 -> {
-                    storeValue(instructionAtPlace1, currentIndex + 1L, if (usedSetting) input else setting)
+                    storeValue(instructionAtPlace1, currentIndex + 1, if (usedSetting) input else setting)
                     usedSetting = true
                     currentIndex += 2
                 }
                 4 -> {
-                    val a = getValue(instructionAtPlace1, currentIndex + 1L)
+                    val a = getValue(instructionAtPlace1, currentIndex + 1)
                     output = a
                     println(output)
                     currentIndex += 2
                 }
                 5 -> {
-                    val a = getValue(instructionAtPlace1, currentIndex + 1L)
-                    val b = getValue(instructionAtPlace2, currentIndex + 2L)
+                    val a = getValue(instructionAtPlace1, currentIndex + 1)
+                    val b = getValue(instructionAtPlace2, currentIndex + 2)
 
                     if (a != 0L) {
                         currentIndex = b.toInt()
@@ -107,8 +107,8 @@ class LongComputer(val setting: Long) {
                     }
                 }
                 6 -> {
-                    val a = getValue(instructionAtPlace1, currentIndex + 1L)
-                    val b = getValue(instructionAtPlace2, currentIndex + 2L)
+                    val a = getValue(instructionAtPlace1, currentIndex + 1)
+                    val b = getValue(instructionAtPlace2, currentIndex + 2)
 
                     if (a == 0L) {
                         currentIndex = b.toInt()
@@ -117,36 +117,36 @@ class LongComputer(val setting: Long) {
                     }
                 }
                 7 -> {
-                    val a = getValue(instructionAtPlace1, currentIndex + 1L)
-                    val b = getValue(instructionAtPlace2, currentIndex + 2L)
-                    storeValue(instructionAtPlace3, currentIndex + 3L, if (a < b) 1L else 0L)
+                    val a = getValue(instructionAtPlace1, currentIndex + 1)
+                    val b = getValue(instructionAtPlace2, currentIndex + 2)
+                    storeValue(instructionAtPlace3, currentIndex + 3, if (a < b) 1L else 0L)
 
                     currentIndex += 4
                 }
                 8 -> {
-                    val a = getValue(instructionAtPlace1, currentIndex + 1L)
-                    val b = getValue(instructionAtPlace2, currentIndex + 2L)
+                    val a = getValue(instructionAtPlace1, currentIndex + 1)
+                    val b = getValue(instructionAtPlace2, currentIndex + 2)
 
-                    storeValue(instructionAtPlace3, currentIndex + 3L, if (a == b) 1L else 0L)
+                    storeValue(instructionAtPlace3, currentIndex + 3, if (a == b) 1L else 0L)
                     currentIndex += 4
                 }
             }
         }
     }
 
-    private fun getValue(instructionType: Int, index: Long): Long {
+    private fun getValue(instructionType: Int, index: Int): Long {
         return when (instructionType) {
-            1 -> instructions[index.toInt()]
-            2 -> instructions[relativeBase + instructions[index.toInt()].toInt()]
-            else -> instructions[instructions[index.toInt()].toInt()]
+            1 -> instructions[index]
+            2 -> instructions[relativeBase + instructions[index].toInt()]
+            else -> instructions[instructions[index].toInt()]
         }
     }
 
-    private fun storeValue(instructionType: Int, index: Long, value: Long) {
+    private fun storeValue(instructionType: Int, index: Int, value: Long) {
         return when (instructionType) {
-            1 -> instructions[index.toInt()] = value
-            2 -> instructions[relativeBase + instructions[index.toInt()].toInt()] = value
-            else -> instructions[instructions[index.toInt()].toInt()] = value
+            1 -> instructions[index] = value
+            2 -> instructions[relativeBase + instructions[index].toInt()] = value
+            else -> instructions[instructions[index].toInt()] = value
         }
     }
 }
