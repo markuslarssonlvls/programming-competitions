@@ -6,8 +6,11 @@ fun main() {
 
 fun a() {
 
-    val amplifierA = Amplifier(2)
-    println(amplifierA.run(2))
+    val amplifierA = Amplifier(1)
+    println(amplifierA.run(1))
+
+    val amplifierB = Amplifier(2)
+    println(amplifierB.run(2))
 }
 
 
