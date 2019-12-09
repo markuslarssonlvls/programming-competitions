@@ -6,15 +6,15 @@ fun main() {
 
 fun a() {
 
-    val amplifierA = Amplifier(1)
-    println(amplifierA.run(1))
+    val computer1 = LongComputer(1)
+    println(computer1.run(1))
 
-    val amplifierB = Amplifier(2)
-    println(amplifierB.run(2))
+    val computer2 = LongComputer(2)
+    println(computer2.run(2))
 }
 
 
-class Amplifier(val setting: Long) {
+class LongComputer(val setting: Long) {
     val instructions: Array<Long>
     var done: Boolean = false
     var output: Long = 0L
@@ -38,68 +38,67 @@ class Amplifier(val setting: Long) {
 
             val instruction = instructions[currentIndex].toString()
             val instructionLength = instruction.length
-            val lastDigit = instruction.substring(instructionLength - 1, instructionLength).toLong()
-            val nextLastDigit = if (instructionLength > 1) {
-                instruction.substring(instructionLength - 2, instructionLength - 1).toLong()
+            val lastDigit = instruction.substring(instructionLength - 1, instructionLength)
+            val lastDigits = if (instructionLength > 1) {
+                (instruction.substring(instructionLength - 2, instructionLength - 1) + lastDigit).toInt()
             } else {
-                0
+                lastDigit.toInt()
             }
 
-            val LongructionAtPlace1 = if (instructionLength > 2) {
-                instruction.substring(instructionLength - 3, instructionLength - 2).toLong()
+            val instructionAtPlace1 = if (instructionLength > 2) {
+                instruction.substring(instructionLength - 3, instructionLength - 2).toInt()
             } else {
                 0
             }
-            val LongructionAtPlace2 = if (instructionLength > 3) {
-                instruction.substring(instructionLength - 4, instructionLength - 3).toLong()
+            val instructionAtPlace2 = if (instructionLength > 3) {
+                instruction.substring(instructionLength - 4, instructionLength - 3).toInt()
             } else {
                 0
             }
             val instructionAtPlace3 = if (instructionLength > 4) {
-                instruction.substring(instructionLength - 5, instructionLength - 4).toLong()
+                instruction.substring(instructionLength - 5, instructionLength - 4).toInt()
             } else {
                 0
             }
-            when (lastDigit) {
-                9L -> {
-                    if (nextLastDigit == 9L) {
-                        done = true
-                        return output
-                    } else {
-                        val a = getValue(LongructionAtPlace1, currentIndex + 1L)
-                        relativeBase += a.toInt()
-                        currentIndex += 2
-                    }
+            when (lastDigits) {
+                99 -> {
+                    done = true
+                    return output
                 }
-                1L -> {
-                    val a = getValue(LongructionAtPlace1, currentIndex + 1L)
-                    val b = getValue(LongructionAtPlace2, currentIndex + 2L)
+                9 -> {
+                    val a = getValue(instructionAtPlace1, currentIndex + 1L)
+                    relativeBase += a.toInt()
+                    currentIndex += 2
+                }
+                1 -> {
+                    val a = getValue(instructionAtPlace1, currentIndex + 1L)
+                    val b = getValue(instructionAtPlace2, currentIndex + 2L)
 
                     storeValue(instructionAtPlace3, currentIndex + 3L, a + b)
 
                     currentIndex += 4
                 }
-                2L -> {
-                    val a = getValue(LongructionAtPlace1, currentIndex + 1L)
-                    val b = getValue(LongructionAtPlace2, currentIndex + 2L)
+                2 -> {
+                    val a = getValue(instructionAtPlace1, currentIndex + 1L)
+                    val b = getValue(instructionAtPlace2, currentIndex + 2L)
                     storeValue(instructionAtPlace3, currentIndex + 3L, a * b)
                     currentIndex += 4
 
                 }
-                3L -> {
-                    storeValue(LongructionAtPlace1, currentIndex + 1L, if (usedSetting) input else setting)
+                3 -> {
+                    storeValue(instructionAtPlace1, currentIndex + 1L, if (usedSetting) input else setting)
                     usedSetting = true
                     currentIndex += 2
                 }
-                4L -> {
-                    val a = getValue(LongructionAtPlace1, currentIndex + 1L)
+                4 -> {
+                    val a = getValue(instructionAtPlace1, currentIndex + 1L)
                     output = a
                     println(output)
                     currentIndex += 2
                 }
-                5L -> {
-                    val a = getValue(LongructionAtPlace1, currentIndex + 1L)
-                    val b = getValue(LongructionAtPlace2, currentIndex + 2L)
+                5 -> {
+                    val a = getValue(instructionAtPlace1, currentIndex + 1L)
+                    val b = getValue(instructionAtPlace2, currentIndex + 2L)
 
                     if (a != 0L) {
                         currentIndex = b.toInt()
@@ -107,9 +106,9 @@ class Amplifier(val setting: Long) {
                         currentIndex += 3
                     }
                 }
-                6L -> {
-                    val a = getValue(LongructionAtPlace1, currentIndex + 1L)
-                    val b = getValue(LongructionAtPlace2, currentIndex + 2L)
+                6 -> {
+                    val a = getValue(instructionAtPlace1, currentIndex + 1L)
+                    val b = getValue(instructionAtPlace2, currentIndex + 2L)
 
                     if (a == 0L) {
                         currentIndex = b.toInt()
@@ -117,51 +116,37 @@ class Amplifier(val setting: Long) {
                         currentIndex += 3
                     }
                 }
-                7L -> {
-                    val a = getValue(LongructionAtPlace1, currentIndex + 1L)
-                    val b = getValue(LongructionAtPlace2, currentIndex + 2L)
+                7 -> {
+                    val a = getValue(instructionAtPlace1, currentIndex + 1L)
+                    val b = getValue(instructionAtPlace2, currentIndex + 2L)
+                    storeValue(instructionAtPlace3, currentIndex + 3L, if (a < b) 1L else 0L)
 
-                    if (a < b) {
-                        storeValue(instructionAtPlace3, currentIndex + 3L, 1L)
-                    } else {
-                        storeValue(instructionAtPlace3, currentIndex + 3L, 0L)
-                    }
                     currentIndex += 4
                 }
-                8L -> {
-                    val a = getValue(LongructionAtPlace1, currentIndex + 1L)
-                    val b = getValue(LongructionAtPlace2, currentIndex + 2L)
+                8 -> {
+                    val a = getValue(instructionAtPlace1, currentIndex + 1L)
+                    val b = getValue(instructionAtPlace2, currentIndex + 2L)
 
-                    if (a == b) {
-                        storeValue(instructionAtPlace3, currentIndex + 3L, 1L)
-                    } else {
-                        storeValue(instructionAtPlace3, currentIndex + 3L, 0L)
-                    }
+                    storeValue(instructionAtPlace3, currentIndex + 3L, if (a == b) 1L else 0L)
                     currentIndex += 4
                 }
-
-
             }
         }
     }
 
-    fun getValue(instrutionType: Long, index: Long): Long {
-        return if (instrutionType == 1L) {
-            instructions[index.toInt()]
-        } else if (instrutionType == 2L) {
-            instructions[relativeBase + instructions[index.toInt()].toInt()]
-        } else {
-            instructions[instructions[index.toInt()].toInt()]
+    private fun getValue(instructionType: Int, index: Long): Long {
+        return when (instructionType) {
+            1 -> instructions[index.toInt()]
+            2 -> instructions[relativeBase + instructions[index.toInt()].toInt()]
+            else -> instructions[instructions[index.toInt()].toInt()]
         }
     }
 
-    fun storeValue(instrutionType: Long, index: Long, value: Long) {
-        return if (instrutionType == 1L) {
-            instructions[index.toInt()] = value
-        } else if (instrutionType == 2L) {
-            instructions[relativeBase + instructions[index.toInt()].toInt()] = value
-        } else {
-            instructions[instructions[index.toInt()].toInt()] = value
+    private fun storeValue(instructionType: Int, index: Long, value: Long) {
+        return when (instructionType) {
+            1 -> instructions[index.toInt()] = value
+            2 -> instructions[relativeBase + instructions[index.toInt()].toInt()] = value
+            else -> instructions[instructions[index.toInt()].toInt()] = value
         }
     }
 }
