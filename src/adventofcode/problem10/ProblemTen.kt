@@ -107,9 +107,10 @@ class Asteroid(val x: Double, val y: Double) {
 
     fun getAngle(x1: Double, x2: Double, y1: Double, y2: Double): Double {
         var angle = Math.toDegrees(atan2(y1 - y2, x1 - x2))
-
+        angle = angle - 90
         if (angle < 0) {
-            angle += 360f
+            angle += 720f
+            angle = angle % 360f
         }
 
         return angle
@@ -117,6 +118,27 @@ class Asteroid(val x: Double, val y: Double) {
 
     fun beam() {
 
+        var sortedMap = asteroidsWithDistances.toSortedMap(Comparator { o1, o2 ->
+            o1.compareTo(o2)
+        })
+
+        var counter = 0
+        while (!sortedMap.isEmpty()) {
+            for (itr in sortedMap.iterator()) {
+                val list = itr.value
+                list.sortBy { (it.x - x) * (it.x - x) + (it.y - y) * (it.y - y) }
+                val lastPoint = list.get(0)
+                list.remove(lastPoint)
+                counter++
+                if (counter == 200) {
+                    println((lastPoint.x) * 100 + (lastPoint.y))
+                    return
+                }
+            }
+            sortedMap = sortedMap.filter { it.value.isNotEmpty() }.toSortedMap(Comparator { o1, o2 ->
+                o1.compareTo(o2)
+            })
+        }
 
     }
 }
