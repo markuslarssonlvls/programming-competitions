@@ -52,7 +52,7 @@ fun a() {
 
 }
 
-fun printOutput () {
+fun printOutput() {
     var count = 0
     map.forEach {
         it.value.forEach {
