@@ -19,8 +19,16 @@ fun a() {
         putValueIfEmpty(x, y, BLACK)
         val input = map[x]!!.get(y)!!
         val output1 = computer1.run(input)
+        if (computer1.done) {
+            printOutput()
+            return
+        }
         map[x]!!.put(y, output1)
         val output2 = computer1.run(input)
+        if (computer1.done) {
+            printOutput()
+            return
+        }
         if (output2 == 1L) {
             direction = (direction + 1) % 4L
         } else {
@@ -40,9 +48,43 @@ fun a() {
                 x--
             }
         }
-
     }
 
+}
+
+fun printOutput () {
+    var count = 0
+    map.forEach {
+        it.value.forEach {
+            count++
+        }
+    }
+    println(count)
+    var minX = Long.MAX_VALUE
+    var maxX = 0L
+    var minY = Long.MAX_VALUE
+    var maxY = 0L
+    map.forEach {
+        minX = Math.min(it.key.toLong(), minX.toLong())
+        maxX = Math.max(it.key.toLong(), maxX.toLong())
+        it.value.forEach {
+            count++
+            minY = Math.min(it.key.toLong(), minY.toLong())
+            maxY = Math.max(it.key.toLong(), maxY.toLong())
+        }
+    }
+    for (y in minY until maxY + 1) {
+        for (x in minX until maxX + 1) {
+            putValueIfEmpty(x, y, BLACK)
+            val input = map[x]!!.get(y)!!
+            if (input == 0L) {
+                print(" ")
+            } else {
+                print("x")
+            }
+        }
+        println("")
+    }
 }
 
 fun putValueIfEmpty(x: Long, y: Long, value: Long) {
@@ -103,38 +145,6 @@ class LongComputer(val returnOnOutput: Boolean) {
             when (lastDigits) {
                 99 -> {
                     done = true
-                    var count = 0
-                    map.forEach {
-                        it.value.forEach {
-                            count++
-                        }
-                    }
-                    println(count)
-                    var minX = Long.MAX_VALUE
-                    var maxX = 0L
-                    var minY = Long.MAX_VALUE
-                    var maxY = 0L
-                    map.forEach {
-                        minX = Math.min(it.key.toLong(), minX.toLong())
-                        maxX = Math.max(it.key.toLong(), maxX.toLong())
-                        it.value.forEach {
-                            count++
-                            minY = Math.min(it.key.toLong(), minY.toLong())
-                            maxY = Math.max(it.key.toLong(), maxY.toLong())
-                        }
-                    }
-                    for (y in minY until maxY + 1) {
-                        for (x in minX until maxX + 1) {
-                            putValueIfEmpty(x, y, BLACK)
-                            val input = map[x]!!.get(y)!!
-                            if (input == 0L) {
-                                print(" ")
-                            } else {
-                                print("x")
-                            }
-                        }
-                        println("")
-                    }
                     return output
                 }
                 9 -> {
